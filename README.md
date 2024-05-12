@@ -5,8 +5,16 @@ Ce projet utilise podman pour créer une conteneur qui disposera du CLI scalingo
 
 ***
 
-Nous partirons d'une image linux alipne et installerons automatiquement le CLI scaleway.
+Nous partirons d'une image linux python et installerons automatiquement le CLI scaleway.
 
-Scaleway fourni une image podman de son CLI. La configuration proposée est d'effectuer un point de montage sur le répertoire de ocnfiguration local. Cette configuration n'est pas portable et présente le défaut de créer un point de connexion entre le conteneur et la machine hôte.
+Le fichier `.env` contient l'ensemble des paramètres de configuration. Il est utilisé au moment de la construction de l'image. Le script `build.sh` permet de construire les fichiers de configuration et de lancer la construction de l'image à l'aide de podman.
 
-Nous allons plutôt inclure le fichier de configuration en créant une image à partir de celle fournie par scaleway. 
+Le fichier `Containerfile` décrit les différentes étapes de la ocnstruction de l'image. Celle-ci contient tout les éléments nécessaires au fonctionnement et n'a pas besoin de point de montage sur l'hôte pour fonctionner.
+
+La commande pour lancer l'archivage en revanche repose sur un montage sur le disque de l'hôte où se trouve les fichiers à archiver. Elle utilise le script `archive.sh` passé en paramètre du lancement du conteneur `scw-cli` construit dans l'étape précédente.
+
+```bash
+podman run -it --rm -v /path_to_files/:/tmp/scw-cli/archives localhost/scw-cli ./archive.sh
+```
+
+Le scipt `archive.sh` archive tous les fichiers et répertoires présents dans le répertoire `/tmp/scw-cli/archives` local au conteneur. Il faut donc que les fichiers à archiver soient montés sur ce répertoire pour pouvoir être envoyés vers le bucket S3 GLACIER.
