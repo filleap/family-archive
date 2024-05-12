@@ -1,0 +1,6 @@
+# Scaleway configuration file
+
+active_profile: family_archive
+
+profiles:
+  family_archive:
