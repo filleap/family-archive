@@ -1,20 +1,32 @@
 # family-archive
 Ce projet utilise le [service GLACIER de scaleway](https://www.scaleway.com/fr/glacier-cold-storage/) qui permet de sauvegarder des fichiers dans un environnement dont le coût de stockage est très peu cher (# 0,25€/mois pour 100Go). Il faut néanmoins prendre en compte des frais de bande passante pour récupérer ses données (# 0,01€/Go).
 
-Ce projet utilise podman pour créer une conteneur qui disposera du CLI scalingo et se chargera de récupérer les fichiers et de les envoyer vers le services GLACIER.
+Ce projet utilise `restic` pour la gestion des sauvegardes et `rclone` pour la connexion et la synchronisation des fichiers dans le bucket S3.
 
 ***
+## rclone
+Nous supposerons que `rclone` est déjà installé et opérationnel. Dans le cas contraire, les différentes méthoddes d'installation sont décrites dans [la documentation](https://rclone.org/install/).
 
-Nous partirons d'une image linux python et installerons automatiquement le CLI scaleway.
+La première étape consiste à configurer `rclone` en fonction du type et/ou du fournisseur de stockage choisi. Dans le cas présent, nous allons suivre les indications propores à disponible dans la [documentation `Object Storage` de scaleway](https://www.scaleway.com/en/docs/storage/object/api-cli/installing-rclone/).
 
-Le fichier `.env` contient l'ensemble des paramètres de configuration. Il est utilisé au moment de la construction de l'image. Le script `build.sh` permet de construire les fichiers de configuration et de lancer la construction de l'image à l'aide de podman.
+Il est conseillé de noter les clés d'API dans un fichier car elles ne sont plus disponibles par la suite. En cas de perte, il faudra en générer de nouvelles et reprender la configuration de `rclone`. L'application ou l'utilisateur doivent avoir les autorisation suffisantes pour accéder au bucket.
 
-Le fichier `Containerfile` décrit les différentes étapes de la ocnstruction de l'image. Celle-ci contient tout les éléments nécessaires au fonctionnement et n'a pas besoin de point de montage sur l'hôte pour fonctionner.
+## restic
+Nous supposerons que `restic` est déjà installé et opérationnel. Dans le cas contraire, les différentes méthoddes d'installation sont décrites dans [la documentation](https://restic.readthedocs.io/en/stable/020_installation.html).
 
-La commande pour lancer l'archivage en revanche repose sur un montage sur le disque de l'hôte où se trouve les fichiers à archiver. Elle utilise le script `archive.sh` passé en paramètre du lancement du conteneur `scw-cli` construit dans l'étape précédente.
+Pour l'utilisation d'un stockage `rclone`, il faut suivre la [configuration décrite dans la documentation](https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html#other-services-via-rclone).
+
+On utilise la commande suivante pour initialiser un répertoire local comme point d'accès vers le bucket.
 
 ```bash
-podman run -it --rm -v /path_to_files/:/tmp/scw-cli/archives localhost/scw-cli ./archive.sh
+restic -r rclone:<remote-name>:<bucket-name> init
+```
+Le `remote-name` est le nom défini au moment de la configuration de `rclone` et le `bucket-name` est le nom choisi lors de la création du stockage objet via l'interface ou le CLI de scaleway.
+
+Le lancement d'une sauvegarde se fait à l'aide de la commande
+
+```bash
+restic -r rclone:<remote-name>:<bucket-name> backup <path-to-backup>
 ```
 
-Le scipt `archive.sh` archive tous les fichiers et répertoires présents dans le répertoire `/tmp/scw-cli/archives` local au conteneur. Il faut donc que les fichiers à archiver soient montés sur ce répertoire pour pouvoir être envoyés vers le bucket S3 GLACIER.
+Les autres commandes disponibles sont décrites [dans la documentation](https://restic.readthedocs.io/en/stable/index.html#).
