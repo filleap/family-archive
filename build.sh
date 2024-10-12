@@ -25,7 +25,7 @@ echo "location_constraint =" >> rclone.conf
 echo "acl = private" >> rclone.conf
 echo "force_path_style = false" >> rclone.conf
 echo "server_side_encryption =" >> rclone.conf
-echo "storage_class = ${S3_BUCKET}" >> rclone.conf
+echo "storage_class = ${STORAGE_CLASS}" >> rclone.conf
 
 echo "#### Suppression des fichiers images podman ####"
 if [ $(rm $pwd/deploy/scw-cli.tar) ]; then
