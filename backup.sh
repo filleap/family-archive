@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source .env
+source .env_restic
 
 for dir in ${DIRECTORIES[@]}; do
     echo "#### backup $dir ###"
