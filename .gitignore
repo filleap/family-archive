@@ -3,3 +3,6 @@ config_aws
 config_scw.yaml
 credentials_aws
 deploy/
+.env_restic
+restic_pwd.cfg
+restic_vaults.sh
