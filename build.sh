@@ -14,7 +14,7 @@ echo "    api_url: ${API_URL}" >> config_scw.yaml
 
 echo "#### Configuration de rclone ####"
 touch rclone.conf
-echo "[${STORAGE_NAME}]" >> rclone.conf
+echo "[${S3_BUCKET}]" >> rclone.conf
 echo "type = s3" >> rclone.conf
 echo "env_auth = false" >> rclone.conf
 echo "endpoint = s3.fr-par.scw.cloud" >> rclone.conf
