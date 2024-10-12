@@ -7,7 +7,7 @@ Ce projet utilise podman pour créer une conteneur qui disposera du CLI scalingo
 
 Nous partirons d'une image linux python et installerons automatiquement le CLI scaleway.
 
-Le fichier `.env` contient l'ensemble des paramètres de configuration. Il est utilisé au moment de la construction de l'image. Le script `build.sh` permet de construire les fichiers de configuration et de lancer la construction de l'image à l'aide de podman.
+Le fichier `.env` contient l'ensemble des paramètres de configuration. Il est utilisé au moment de la construction de l'image. Le script `build.sh` permet de construire les fichiers de configuration `config_scw_empty` et `credentials_aws` puis de lancer la construction de l'image à l'aide de podman.
 
 Le fichier `Containerfile` décrit les différentes étapes de la ocnstruction de l'image. Celle-ci contient tout les éléments nécessaires au fonctionnement et n'a pas besoin de point de montage sur l'hôte pour fonctionner.
 

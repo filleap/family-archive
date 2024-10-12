@@ -1,7 +1,4 @@
-.env
-config_aws
-config_scw.yaml
-credentials_aws
+.env_rclone
 deploy/
 .env_restic
 restic_pwd.cfg
