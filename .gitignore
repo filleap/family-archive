@@ -1,4 +1,4 @@
-.env
+.env_rclone
 config_aws
 config_scw.yaml
 credentials_aws
