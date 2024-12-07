@@ -1,4 +1,4 @@
-    n#!/bin/bash
+#!/bin/bash
 source .env_rclone
 pwd=$(pwd)
 
@@ -16,6 +16,7 @@ echo "#### Configuration de rclone ####"
 touch rclone.conf
 echo "[${S3_BUCKET}]" >> rclone.conf
 echo "type = s3" >> rclone.conf
+echo "provider = Scaleway" >> rclone.conf
 echo "env_auth = false" >> rclone.conf
 echo "endpoint = s3.fr-par.scw.cloud" >> rclone.conf
 echo "access_key_id = ${ACCESS_KEY}" >> rclone.conf

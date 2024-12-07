@@ -9,7 +9,7 @@ Nous partirons d'une image linux python et installerons automatiquement le CLI s
 
 Le fichier `.env` contient l'ensemble des paramètres de configuration. Il est utilisé au moment de la construction de l'image. Le script `build.sh` permet de construire les fichiers de configuration `config_scw_empty` et `credentials_aws` puis de lancer la construction de l'image à l'aide de podman.
 
-Le fichier `Containerfile` décrit les différentes étapes de la ocnstruction de l'image. Celle-ci contient tout les éléments nécessaires au fonctionnement et n'a pas besoin de point de montage sur l'hôte pour fonctionner.
+Le fichier `Containerfile` décrit les différentes étapes de la construction de l'image. Celle-ci contient tous les éléments nécessaires au fonctionnement et n'a pas besoin de point de montage sur l'hôte pour fonctionner.
 
 La commande pour lancer l'archivage en revanche repose sur un montage sur le disque de l'hôte où se trouve les fichiers à archiver. Elle utilise le script `archive.sh` passé en paramètre du lancement du conteneur `scw-cli` construit dans l'étape précédente.
 
@@ -17,4 +17,4 @@ La commande pour lancer l'archivage en revanche repose sur un montage sur le dis
 podman run -it --rm -v /path_to_files/:/tmp/scw-cli/archives localhost/scw-cli ./archive.sh
 ```
 
-Le scipt `archive.sh` archive tous les fichiers et répertoires présents dans le répertoire `/tmp/scw-cli/archives` local au conteneur. Il faut donc que les fichiers à archiver soient montés sur ce répertoire pour pouvoir être envoyés vers le bucket S3 GLACIER.
+Le scipt `archive.sh` synchronise tous les fichiers et répertoires présents dans le répertoire `/tmp/scw-cli/archives` local au conteneur. Il faut donc que les fichiers à archiver soient montés sur ce répertoire pour pouvoir être envoyés vers le bucket S3 GLACIER.

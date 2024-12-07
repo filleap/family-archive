@@ -3,6 +3,7 @@ ENV PYTHONUNBUFFERED 1
 
 RUN mkdir /tmp/scw-cli
 WORKDIR /tmp/scw-cli
+COPY .env_rclone /tmp/scw-cli/.env
 
 RUN apt update && apt -y install curl unzip
 
@@ -17,5 +18,5 @@ RUN cp rclone-*-linux-amd64/rclone /usr/local/bin/rclone
 
 COPY rclone.conf /root/.config/rclone/rclone.conf
 
-# COPY archive.sh /tmp/scw-cli/archive.sh
-# RUN chmod +x archive.sh
+COPY archive.sh /tmp/scw-cli/archive.sh
+RUN chmod +x archive.sh
