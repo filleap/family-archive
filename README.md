@@ -35,7 +35,7 @@ storage_class = GLACIER
 ```
 
 ## restic
-Nous supposerons que `restic` est déjà installé et opérationnel. Dans le cas contraire, les différentes méthoddes d'installation sont décrites dans [la documentation](https://restic.readthedocs.io/en/stable/020_installation.html).
+Nous supposerons que `restic` est déjà installé et opérationnel. Dans le cas contraire, les différentes méthodes d'installation sont décrites dans [la documentation](https://restic.readthedocs.io/en/stable/020_installation.html).
 
 Pour l'utilisation d'un stockage `rclone`, il faut suivre la [configuration décrite dans la documentation](https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html#other-services-via-rclone).
 
