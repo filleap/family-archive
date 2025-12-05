@@ -1,3 +1,4 @@
+*.code-workspace
 .env_rclone
 deploy/
 .env_restic
