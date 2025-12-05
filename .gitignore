@@ -1,3 +1,4 @@
+*.code-workspace
 .env_rclone
 config_aws
 config_scw.yaml
